@@ -8,13 +8,13 @@ cont3=0
 cont=1
 ############################################################
 #Datos a cambiar
-nombreCSV="e4"
+nombreCSV="data1"
 Padre="Probando"
 ############################################################
 ids=[Padre]
 labels=[Padre]
 parents=[""]
-with open("../Datos_Excell/"+nombreCSV+".csv", newline='') as File:  
+with open("./Datos_Excell/"+nombreCSV+".csv", newline='') as File:  
     reader = csv.reader(File)
     for row in reader:
         if(salto):
