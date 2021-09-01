@@ -36,8 +36,8 @@ def get_example_tree():
     # We will add node names manually
     ts.show_leaf_name = False
     # Show branch data
-    ts.show_branch_length = True
-    ts.show_branch_support = True
+    #ts.show_branch_length = True
+    #ts.show_branch_support = True
 
     return t, ts
 
