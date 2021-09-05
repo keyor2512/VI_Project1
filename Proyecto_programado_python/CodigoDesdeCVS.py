@@ -345,18 +345,22 @@ class obtList:
         return self.listTe
     def getTupla(self):
         cont=0
-        tupla=[]
-        lTemp=[]
+        tupla="("
+        lTemp="("
         while(cont<len(self.listTe)):
+            if(cont!=0):
+                tupla+=","
             cont2=0
-            lTemp=[]
+            lTemp="("
             while(cont2<len(self.listTe[cont][-1])):
-                lTemp.append(self.listTe[cont][-1][cont2][1]+" :"+self.listTe[cont][-1][cont2][3])
+                if(cont2!=0):
+                    lTemp+=","
+                lTemp+=self.listTe[cont][-1][cont2][1]+" :"+self.listTe[cont][-1][cont2][3]
                 cont2+=1
-            tupla.append(tuple(lTemp))
+            tupla+=(lTemp+")")
             cont+=1
             
-        return tuple(tupla)
+        return tupla+");"
         
                   
 

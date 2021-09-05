@@ -61,6 +61,7 @@ art.add_trace(go.Icicle(
     root_color="lightblue",
     maxdepth=2,
     visible=True,
+    
     textfont=dict(
         family="Times",
         size=30,
@@ -86,7 +87,7 @@ while(cont<Cpadres):
     
 art.update_layout(  
     uniformtext=dict(minsize=10, mode='hide'),
-    margin = dict(t=50, l=25, r=25, b=25),
+    
     
     
 )
