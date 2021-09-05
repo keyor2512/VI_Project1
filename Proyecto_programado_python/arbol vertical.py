@@ -3,12 +3,13 @@ import CodigoDesdeCVS
 #coloresMainP=["gray","brown","purple","blue","green","black"]
 #coloresMainP=["gray","brown","purple","blue","green","black"]
 #listasP=CodigoDesdeCVS.obtList("e1","probando",coloresMainP)
-listasP=CodigoDesdeCVS.obtList("e1","probando",1)
-print(len(listasP.getValues()))
+listasP=CodigoDesdeCVS.obtList("e1","Origins",1)
+print(listasP.getTupla())
+#print(len(listasP.getValues()))
 paises =go.Figure(go.Icicle(
-    ids=listasP.getIds(),
-    labels= listasP.getLabels(),
-    parents=listasP.getParents(),
+    ids=listasP.getInf(1)[0],
+    labels= listasP.getInf(1)[1],
+    parents=listasP.getInf(1)[2],
     root_color="lightblue",
     maxdepth=2,
     textfont=dict(
@@ -29,5 +30,7 @@ paises.update_layout(
     margin = dict(t=50, l=25, r=25, b=25)
 )
 paises.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-paises.show()
+#print(listasP.getLL())
+#print(listasP.getLista())
+#paises.show()
 
