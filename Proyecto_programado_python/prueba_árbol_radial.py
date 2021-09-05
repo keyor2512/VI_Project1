@@ -1,6 +1,6 @@
 import random
 from ete3 import Tree, TreeStyle, NodeStyle, faces, AttrFace, CircleFace
-
+import CodigoDesdeCVS
 def layout(node):
     if node.is_leaf():
         # Add node name to laef nodes
@@ -16,10 +16,11 @@ def layout(node):
         faces.add_face_to_node(C, node, 0, position="float")
 
 def get_example_tree():
+    # 
+    listasP=CodigoDesdeCVS.obtList("/home/kali/Desktop/RepoElectiva/VI_Project1/Proyecto_programado_python/e1","Origins",1)
     # Random tree
-    t = Tree()
-    t.populate(20, random_branches=True)
-
+    print(listasP.getTupla().replace(" ","_"))
+    t = Tree(listasP.getTupla().replace(" ","_"))
     # Some random features in all nodes
     for n in t.traverse():
         n.add_features(weight=random.randint(0, 50))

@@ -1,6 +1,6 @@
 import csv
-import plotly.graph_objects as go
-from colour import Color
+# import plotly.graph_objects as go
+# from colour import Color
 import json
 class obtList:
     listTe=[]
@@ -355,7 +355,8 @@ class obtList:
             while(cont2<len(self.listTe[cont][-1])):
                 if(cont2!=0):
                     lTemp+=","
-                lTemp+=self.listTe[cont][-1][cont2][1]+" :"+self.listTe[cont][-1][cont2][3]
+                lTemp+=self.listTe[cont][-1][cont2][1]
+                ##+" "+self.listTe[cont][-1][cont2][3]
                 cont2+=1
             tupla+=(lTemp+")")
             cont+=1
