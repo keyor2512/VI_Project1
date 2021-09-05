@@ -2,6 +2,8 @@ import csv
 # import plotly.graph_objects as go
 # from colour import Color
 import json
+
+from numpy.lib.function_base import append
 class obtList:
     listTe=[]
     listpp=[]
@@ -355,13 +357,55 @@ class obtList:
             while(cont2<len(self.listTe[cont][-1])):
                 if(cont2!=0):
                     lTemp+=","
-                lTemp+=self.listTe[cont][-1][cont2][1]
-                ##+" "+self.listTe[cont][-1][cont2][3]
+                lTemp+=self.listTe[cont][-1][cont2][1]+" "+str(round(float(self.listTe[cont][-1][cont2][3])))
                 cont2+=1
             tupla+=(lTemp+")")
             cont+=1
-            
         return tupla+");"
         
-                  
+    def getContinentes(self):
+        cont=0
+        tupla=[]
+        while(cont<len(self.listTe)):
+            tupla.append(self.listTe[cont][1])
+            cont+=1
+            
+        return tupla
 
+    def getListaPaises(self):
+        cont=0
+        tupla=[[]]
+        lTemp=[]
+        while(cont<len(self.listTe)):
+            cont2=0
+            while(cont2<len(self.listTe[cont][-1])):
+                lTemp.append(self.listTe[cont][-1][cont2][1]+" "+str(round(float(self.listTe[cont][-1][cont2][3]))))
+                cont2+=1
+            tupla.append(lTemp)
+            lTemp=[]
+            cont+=1
+            
+        return tupla
+        
+    def getListaPaisesPoblacion(self):
+        cont=0
+        tupla=[[]]
+        lTemp=[]
+        while(cont<len(self.listTe)):
+            cont2=0
+            while(cont2<len(self.listTe[cont][-1])):
+                lTemp.append(self.listTe[cont][-1][cont2][3])
+                cont2+=1
+            tupla.append(lTemp)
+            lTemp=[]
+            cont+=1
+            
+        return tupla
+
+    def contar(self, m):
+        d = 0
+        while(m >= 1):
+            m = m/10
+            d = d+1
+        return d
+	
