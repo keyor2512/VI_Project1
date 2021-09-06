@@ -1,6 +1,6 @@
 import csv
-# import plotly.graph_objects as go
-# from colour import Color
+import plotly.graph_objects as go
+from colour import Color
 import json
 class obtList:
     listTe=[]
@@ -25,6 +25,8 @@ class obtList:
     tipo=0
     padre=""
     lNums=[]
+    VValues=[]
+    listSizes=[]
     def __init__(self,nombreCSV,padre,tipo):
         self.tipo=tipo
         self.padre=padre
@@ -63,6 +65,7 @@ class obtList:
                     conto2+=1
                 self.total=self.total+self.valuesT[-1][0]
                 conto+=1
+                self.listSizes.append(self.valuesT[-1][0])
         else:
             self.Lvalues=self.listpp
             while(conto<len(self.listTe)):
@@ -78,7 +81,7 @@ class obtList:
                 self.valuesT[-1][0]=self.sumL(self.valuesT[-1][-1])
                 self.total=self.total+self.valuesT[-1][0]
                 conto+=1
-
+                self.listSizes.append(self.valuesT[-1][0])
 ##################################################################################################################################################################################################        
         #Crea el json con los datos obtenidos y lo guarda en un archivo
         with open(padre+".json", "w") as outfile:
@@ -319,16 +322,19 @@ class obtList:
     def getInf(self,Itipo):
         self.listPos=[]
         self.parents=[""]
-        
+        self.VValues=[]
         if(Itipo<0):
             self.ids=[self.padre]
             self.labels=[self.padre]
             self.asig(self.listTe,self.padre,0,Itipo)
             cont=0
-            while(cont<len(self.labels)):
-                self.labels[cont]=self.labels[cont]+" :"+str(self.getValues()[cont])
-                cont+=1
+            self.VValues=self.getValues()
+            #while(cont<len(self.labels)):
+                #self.labels[cont]=self.labels[cont]+" :"+str(self.getValues()[cont])
+               # self.VValues.append((self.getValues()[cont]))
+               # cont+=1
         else:
+            print(Itipo)
             self.ids=[self.listTe[Itipo][1]]
             self.labels=[self.listTe[Itipo][1]]
             self.parents=[""]
@@ -336,13 +342,34 @@ class obtList:
             self.asig(self.listTe[Itipo][-1],self.listTe[Itipo][1],0,Itipo)
            # print(self.labels[0])
             cont=0
-            while(cont<len(self.labels)):
+            self.VValues=self.lNums[Itipo]
+            #while(cont<len(self.labels)):
                 #print(self.labels)
-                self.labels[cont]=self.labels[cont]+" :"+str(self.lNums[Itipo][cont])
-                cont+=1
-        return [self.ids,self.labels,self.parents]
+             #   self.VValues.append((self.getValues()[cont]))
+                #self.labels[cont]=self.labels[cont]+" :"+str(self.lNums[Itipo][cont])
+              #  cont+=1
+        self.VValues[0]=1
+        return [self.ids,self.labels,self.parents,self.VValues]
     def getListTe(self):
         return self.listTe
+    def getSortL(self):
+        listTemp=[]
+        listTemp.extend(self.listSizes)
+        listTemp.sort()
+        
+        listTemp.reverse()
+        
+        listPosPos=[]
+        cont1=0
+        cont2=0
+        while(cont1<len(listTemp)):
+            if(listTemp[cont1]==self.listSizes[cont2]):
+                listPosPos.append(cont2)
+                cont1+=1
+                cont2=0
+            else:
+                cont2+=1
+        return listPosPos
     def getTupla(self):
         cont=0
         tupla="("
@@ -355,8 +382,7 @@ class obtList:
             while(cont2<len(self.listTe[cont][-1])):
                 if(cont2!=0):
                     lTemp+=","
-                lTemp+=self.listTe[cont][-1][cont2][1]
-                ##+" "+self.listTe[cont][-1][cont2][3]
+                lTemp+=self.listTe[cont][-1][cont2][1]+" :"+self.listTe[cont][-1][cont2][3]
                 cont2+=1
             tupla+=(lTemp+")")
             cont+=1
