@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Origin</title>
+
+<link rel="stylesheet" type="text/css" href="./style.css">
+
+<body >
+<div id="buttonsDiv"></div>
+<script type="module">
+var tipo = -1;
+import define from "./index.js";
+import {Runtime, Library, Inspector} from "./runtime.js";
+
+var runtime = new Runtime();
+
+
+//runtime = new Runtime();
+//runtime.module(define, Inspector.into(document.getElementById("dd2")),1);
+
+ var hijos =6;
+
+ while(tipo<hijos){
+ 	runtime = new Runtime();
+ 	runtime.module(define, Inspector.into(document.getElementById("div"+String(tipo))),tipo);
+ 	tipo+=1;
+ }
+
+//bgcolor="#4495E1"
+</script>
+
+<script type="text/javascript">
+	var listNames=["All","Africa","Asia","Europe","North America","Oceania","South America",];
+	var hijos=6;
+	var cont=-1
+	var a = document.createElement("div");
+	while(cont<hijos){
+		a = document.createElement("div");
+		a.id="div"+String(cont);
+		a.style.display="none";
+		a.setAttribute("class","graficos");
+		document.body.appendChild(a);
+		b=document.createElement("input");
+		b.type="button";
+		b.id="butt"+String(cont);
+		b.value=listNames[cont+1];
+		b.setAttribute("class","buttons");
+		b.style.display="block";
+		b.setAttribute("onclick","ShowGrafi("+String(cont)+")");
+		document.getElementById("buttonsDiv").appendChild(b);
+		cont+=1;
+	}
+
+	function ShowGrafi(tipo) {
+		
+		var cont2 = -1;
+		while(cont2<hijos){
+			console.log("das");
+			document.getElementById("butt"+String(cont2)).classList.remove("Push");
+			document.getElementById("div"+String(cont2)).style.display="none";
+			cont2+=1;
+		}
+		document.getElementById("butt"+String(tipo)).classList.add("Push");
+		document.getElementById("div"+tipo).style.display="block";
+	}
+	
+	//document.createElement(tagName, [options]);
+document.getElementById("butt-1").classList.add("Push");
+document.getElementById("div-1").style.display="block";
+</script>
+
+

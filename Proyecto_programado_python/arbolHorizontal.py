@@ -1,6 +1,6 @@
 import plotly.graph_objects as go
 import CodigoDesdeCVS
-
+import CodigoDesdeCVS22
 coloresMainA=['blugrn', [[1, '#e74642'], [0.5, '#f3a3a1'], [0, '#ffffff']],
               [[1, '#49ad4d'], [0.5, '#a2d8a4'], [0, '#ffffff']],
               [[1, '#ff6c45'], [0.5, '#ffb5a2'], [0, '#ffffff']],
@@ -22,26 +22,11 @@ coloresMainA=['blugrn', [[1, '#e74642'], [0.5, '#f3a3a1'], [0, '#ffffff']],
               [[1, '#e74642'], [0.5, '#f3a3a1'], [0, '#ffffff']],
               [[1, '#5a9536'], [0.5, '#a9d68e'], [0, '#ffffff']],
               [[1, '#b72828'], [0.5, '#e58989'], [0, '#ffffff']]]
-#coloresMainP=["gray","brown","purple","blue","green","black"]
+colores=["#35a520","#49ab34","#5bb245","#6bb955","#7abf64","#88c674","#96cc83","#a3d392"]
 listasA=CodigoDesdeCVS.obtList("e2","Imports",2)
-#listasA=CodigoDesdeCVS.obtList("e2","probando",coloresMainA)
-#print(listasA.getValues()[:100])
-#print(listasA.getIds()[-1])
-#print(listasA.getParents()[-1])
-#values=listasA.getValues()
+listasB=CodigoDesdeCVS22.obtList("e2","Imports",2)
 cont=0
 import numpy as np
-#print(values[0])
-#ids=listasA.getIds()
-#parents=listasA.getParents()
-#labels=[]
-#cont=0
-#while(cont<len(listasA.getLabels())):
- #   labels.append(listasA.getLabels()[cont]+" :"+str(listasA.getValues()[cont]))
-  #  cont+=1
-  
-ll=listasA.getInf(20)[1]
-ll[0]="das"
 Cpadres=21
 art =go.Figure()
 def Show(num):
@@ -55,18 +40,15 @@ def Show(num):
             lista.append(False)
         cont+=1
     return lista
-
 def getDicButt():
     global Cpadres
     cont=0
     LR=[]
-    while(cont<len(listasA.getListTe())+1):
-        
+    while(cont<len(listasB.getListTe())+1):
         if(cont==0):
             name="All"
         else:
-            name=listasA.getListTe()[cont-1][1]
-        
+            name=listasA.getListTe()[cont-1][1]#[:15]+"..."
         LR.append(dict(
             args=[{"visible":Show(cont)}],
             label=name,
@@ -77,27 +59,17 @@ def getDicButt():
     return LR
 cont=0
 art.add_trace(go.Icicle(
-    ids=listasA.getInf(-1)[0],
-    labels=listasA.getInf(-1)[1],
-    parents=listasA.getInf(-1)[2],
-    values=listasA.getInf(-1)[3],
-    
-    #color=np.log10(listasA.getInf(-1)[3][0]),
-    #color_continuous_scale=["red", "green", "blue"],
-   # marker=dict(
-       # colors=coloresMainA,
-       # colorscale='RdBu',
-       # cmid=listasA.getInf(-1)[3]),
-    
-    #color_continuous_midpoint=np.average(values=listasA.getInf(-1)[3]),
-    #values=listasA.getInf(-1)[3],
-    root_color="lightblue",
-    maxdepth=2,
+    ids=listasB.getInf(-1)[0],
+    labels=listasB.getInf(-1)[1],
+    parents=listasB.getInf(-1)[2],
+    values=listasB.getInf(-1)[3],
+    root_color="#169e00",
+    maxdepth=-1,
     visible=True,
     marker_colorscale = coloresMainA[0],
     textfont=dict(
         family="Times",
-        size=30,
+        size=15,
         color="black"
     )))
 while(cont<Cpadres):
@@ -105,33 +77,24 @@ while(cont<Cpadres):
     a.extend(coloresMainA[cont+1])
     a.reverse()
     art.add_trace(go.Icicle(
-        ids=listasA.getInf(cont)[0],
-        labels=listasA.getInf(cont)[1],
-        parents=listasA.getInf(cont)[2],
-        values=listasA.getInf(cont)[3],
-        
-       # marker=dict(
-          #  colors=coloresMainA,
-          #  colorscale='RdBu',
-          #  cmid=listasA.getInf(cont)[3]),
-        #color_continuous_midpoint=np.average(listasA.getInf(cont)[3]),
-        #marker_colors = listas.getColors()
-        root_color="lightblue",
-        maxdepth=2,
+        ids=listasB.getInf(cont)[0],
+        labels=listasB.getInf(cont)[1],
+        parents=listasB.getInf(cont)[2],
+        values=listasB.getInf(cont)[3],
+        root_color="#169e00",
+        maxdepth=-1,
         visible=False,
         
         marker_colorscale = a,
         textfont=dict(
             family="Times",
-            size=40,
+            size=15,
             color="black"
         )))
-    print(cont)
     cont+=1    
 
     
 art.update_layout(  
-    uniformtext=dict(minsize=10, mode='hide'),
    title={
         'text': "Imports 2019",
         'y':1,
@@ -163,12 +126,6 @@ art.update_layout(
         ),
     ]
 )
-print(listasA.getSortL())
-
-#art.update_xaxes(autorange=False)
-#art.update_xaxes(categoryorder="category ascending")
 art.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-art.update_traces(textposition='middle center',textfont=dict(
-        family="times",
-        size=30))
+art.update_traces(textposition='middle center')
 art.show()

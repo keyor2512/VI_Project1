@@ -1,0 +1,32 @@
+#buttonsDiv{
+	float: left;
+	margin-top: 3%;
+
+}
+.graficos{
+	float: right;
+	width: 85%;
+	border: 2px solid #002F5C;
+	margin-top: 3%;
+}
+.buttons{
+	margin-bottom: 9px;
+	width: 200px;
+	cursor:pointer;
+
+	background-color: #2b7db4; /* Green */
+    border: none;
+    color: white;
+    padding: 3px ;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 12px;
+
+}
+.Push{
+	border: 2px solid #000000 !important;
+    background-color: #002f5c !important;
+}
+body{
+background: linear-gradient(90deg, rgba(202,202,203,1) 0%, rgba(146,201,212,1) 100%);
+}

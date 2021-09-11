@@ -29,6 +29,8 @@ class obtList:
     lNums=[]
     VValues=[]
     listSizes=[]
+    lp=[]
+    lp2=[]
     def __init__(self,nombreCSV,padre,tipo):
         self.tipo=tipo
         self.padre=padre
@@ -55,16 +57,20 @@ class obtList:
                 self.lNums.append([0])
                 conto2=0
                 self.listTe[conto][-1]=self.splitP(self.listTe[conto][-1])
-                
+                self.lp.append([0,[],[],[]])
                 while(conto2<len(self.listTe[conto][-1])):
+                    self.lp[-1][-1].extend(self.splitNum(self.listTe[conto][-1][conto2][-1])[-1])                    
+                    self.lp[-1][2].append(self.splitNum(self.listTe[conto][-1][conto2][-1])[0])                   
+                    self.lp[-1][1].append(self.sumL(self.lp[-1][2][-1]))                    
                     self.valuesT[-1][2].append(self.getN((self.listTe[conto][-1][conto2][-1])))
-                    self.valuesT[-1][1].append(self.sumL(self.getN((self.listTe[conto][-1][conto2][-1]))))
+                    self.valuesT[-1][1].append(self.getN((self.listTe[conto][-1][conto2][-1])))
                     self.Lvalues.extend(self.getN((self.listTe[conto][-1][conto2][-1])))
                     self.valuesT[-1][0]=self.valuesT[-1][0]+self.sumL(self.getN((self.listTe[conto][-1][conto2][-1])))
                     self.lNums[-1][0]=self.lNums[-1][0]+self.sumL(self.getN((self.listTe[conto][-1][conto2][-1])))
                     self.lNums[-1].append(self.sumL(self.getN((self.listTe[conto][-1][conto2][-1]))))
                     self.lNums[-1].extend(self.getN((self.listTe[conto][-1][conto2][-1])))
                     conto2+=1
+                self.lp[-1][0]=self.sumL(self.lp[-1][1])
                 self.total=self.total+self.valuesT[-1][0]
                 conto+=1
                 self.listSizes.append(self.valuesT[-1][0])
@@ -84,20 +90,61 @@ class obtList:
                 self.total=self.total+self.valuesT[-1][0]
                 conto+=1
                 self.listSizes.append(self.valuesT[-1][0])
+        cont=0
+        cont4=0
+        while(cont<len(self.lp)):
+            self.lp2.append([])
+            self.lp2[-1].append(self.lp[cont][0])
+            cont2=0
+            cont4=0
+            while(cont2<len(self.lp[cont][1])):
+                self.lp2[-1].append(self.lp[cont][1][cont2])
+                cont3=0
+                while(cont3<len(self.lp[cont][2][cont2])):
+                  self.lp2[-1].append(self.lp[cont][2][cont2][cont3])
+                  self.lp2[-1].extend(self.lp[cont][3][cont4])
+                  cont4+=1
+                  cont3+=1
+                cont2+=1
+            cont+=1
+        
 ##################################################################################################################################################################################################        
         #Crea el json con los datos obtenidos y lo guarda en un archivo
-        with open(padre+".json", "w") as outfile:
-            temd={}
-            temd["name"]=padre
-            temd["children"]=self.LtoDic(self.listTe)
-            outfile.write(json.dumps(temd))
+        
+        if(tipo==2):
+            cont=0
+            while(cont<len(self.listTe)):
+                cont2=0
+                while(cont2<len(self.listTe[cont][-1])):
+                    self.listTe[cont][-1][cont2][-1]=self.splitP(self.listTe[cont][-1][cont2][-1])
+                    cont2+=1
+                cont+=1
+       # print(self.listTe[-1])
+        if(tipo==2):
+            with open(padre+".json", "w") as outfile:
+                temd={}
+                temd["name"]=padre
+                temd["children"]=self.LtoDic(self.listTe)
+                outfile.write(json.dumps(temd))
 ##################################################################################################################################################################################################
-        #separa la lista generada en split en padres, labels e Ids
-        #self.listPos=[]
-       # self.parents=[""]
-        #self.ids=[padre]
-        #self.labels=[padre]
-        #self.asig(self.listTe,self.padre,0)
+    def splitNum(self,lista):
+        lista2=[[0]]
+        lista3=[[],[[]]]
+        ultimo=lista[0][0]
+        cont=0
+        while(cont<len(lista)):
+            if(lista[cont][0]==ultimo):
+                lista2[-1][0]+=float(lista[cont][-1])
+                
+                lista3[-1][-1].append(lista[cont][-1])
+                cont+=1
+            else:
+                lista3[0].append(lista2[-1][0])
+                lista3[1].append([])
+                lista2.append([0])
+                ultimo=lista[cont][0]
+        lista3[0].append(lista2[-1][0])
+        return lista3
         
        
 ##################################################################################################################################################################################################
@@ -107,27 +154,23 @@ class obtList:
         cont=0
         while(cont<len(lista)):
             if(self.tipo==2):
-                if(lista[cont][0]!=lista[cont-1][0]):
                     if(type(lista[cont])!=list):
-                        self.contG+=1
-                       # print(self.Lvalues[self.contG])
-                        return self.Lvalues[self.contG]
+                        return lista[cont]
                     else:
                         dicci[-1]["name"]=lista[cont][1]
                         if(type(lista[cont][-1])!=list):
-                            dicci[-1]["value"]=self.LtoDic(lista[cont][-1])
+                            dicci[-1]["value"]=lista[cont][-1]
                         else:
                             dicci[-1]["children"]=self.LtoDic(lista[cont][-1])
                     dicci.append({})
             else:
                 if(type(lista[cont])!=list):
                     self.contG+=1
-                    #print(self.Lvalues[self.contG])
-                    return self.Lvalues[self.contG]
+                    return lista[cont]
                 else:
                     dicci[-1]["name"]=lista[cont][1]
                     if(type(lista[cont][-1])!=list):
-                        dicci[-1]["value"]=self.LtoDic(lista[cont][-1])
+                        dicci[-1]["value"]=lista[cont][-1]
                     else:
                         dicci[-1]["children"]=self.LtoDic(lista[cont][-1])
                 dicci.append({}) 
@@ -138,7 +181,6 @@ class obtList:
     def settinVal(self):
         lista=[]
         cont=0
-        
         while(cont<len(self.valuesT)):
             lista.append(self.valuesT[cont][0])
             if(self.tipo==2):
@@ -156,16 +198,15 @@ class obtList:
     #suma todos los valores similares, por ejemplo todos los valores de caballos pura sangre y los que no los convierte en un solo valor
     def getN(self,lista):
         lista2=[[0]]
-        ultimo=lista[0][0]
         cont=0
         while(cont<len(lista)):
-            if(lista[cont][0]==ultimo):
+            
                 lista2[-1][0]+=float(lista[cont][-1])
-                cont+=1
-            else:
                 lista2.append([0])
-                ultimo=lista[cont][0]
+                cont+=1
         return self.quitL(lista2)
+
+    
 ##################################################################################################################################################################################################    
     #recibe una lista de numeros y devuelve el total de la suma de estos 
     def sumL(self,lista):
@@ -229,12 +270,9 @@ class obtList:
 
  ##################################################################################################################################################################################################       
     #funcion que utiliza la listas de listas y genera la lista de Ids,Labels,Parents
-    def asig(self,lista,parent,pos,Itipo):
+    def asig(self,lista,parent):
             cont4=0
-        #if(Itipo<0):
             while(cont4<len(lista)):
-                #print(lista)
-                #print(lista[cont4])
                 if(lista[cont4]!="" and len(lista[cont4])>0):
                     if(type(lista[cont4]==list)):
                         if(type(lista[cont4][-1])!=list):
@@ -242,25 +280,16 @@ class obtList:
                                 self.ids.append(lista[cont4][1])
                                 self.labels.append(lista[cont4][1])
                                 self.parents.append(parent)
-                                self.listPos.append(pos)
                         else:
                             self.ids.append(lista[cont4][1])
                             self.labels.append(lista[cont4][1])
                             self.parents.append(parent)
-                            self.listPos.append(pos)
-                            self.asig(lista[cont4][-1],lista[cont4][1],pos+1,Itipo)
+                            self.asig(lista[cont4][-1],lista[cont4][1])
                     else:
                         self.ids.append(lista[cont4])
                         self.labels.append(lista[cont4])
                         self.parents.append(parent)
-                        self.listPos.append(pos)
                 cont4+=1
-            #else:
-               # while(cont4<len(lista[-1])):
-                 #   if(type(lista[-1][cont4]==list)):
-                  #     if(self.ids[-1]!=lista[1]):
-                     #      self.ids.append(lista[1])
-                       #    self.labels.append(lista[1])
             return
 ##################################################################################################################################################################################################
     #funcion que coloca los numeros en sus posiciones (ya no se usa)
@@ -282,7 +311,6 @@ class obtList:
         ll=[]
         if(lista!=None):
             while(count2<len(lista)):
-                
                 if(type(lista[count2][-1])==list):
                     lista[count2][-1]=self.splitRecur(self.splitP(lista[count2][-1]))
                     count2+=1
@@ -328,29 +356,35 @@ class obtList:
         if(Itipo<0):
             self.ids=[self.padre]
             self.labels=[self.padre]
-            self.asig(self.listTe,self.padre,0,Itipo)
+            self.parents=[""]
+           # print(self.listTe)
+            self.asig(self.listTe,self.padre)
             cont=0
-            self.VValues=self.getValues()
-            #while(cont<len(self.labels)):
-                #self.labels[cont]=self.labels[cont]+" :"+str(self.getValues()[cont])
-               # self.VValues.append((self.getValues()[cont]))
-               # cont+=1
+            hijos=21
+            p=[""]
+            i=[self.padre]
+            cont=0
+            while(cont<hijos):
+                self.ids=[]
+                self.parents=[]
+                self.asig(self.listTe[cont][-1],self.listTe[cont][1])
+                p.extend(self.parents)
+                i.extend(self.ids)
+                cont+=1
+            return(i,i,p)
+
         else:
-            print(Itipo)
             self.ids=[self.listTe[Itipo][1]]
             self.labels=[self.listTe[Itipo][1]]
             self.parents=[""]
-            #print(self.listTe[0])
-            self.asig(self.listTe[Itipo][-1],self.listTe[Itipo][1],0,Itipo)
-           # print(self.labels[0])
+            self.asig(self.listTe[Itipo][-1],self.listTe[Itipo][1])
             cont=0
-            self.VValues=self.lNums[Itipo]
-            #while(cont<len(self.labels)):
-                #print(self.labels)
-             #   self.VValues.append((self.getValues()[cont]))
-                #self.labels[cont]=self.labels[cont]+" :"+str(self.lNums[Itipo][cont])
-              #  cont+=1
-        self.VValues[0]=1
+            self.VValues=self.lp2[Itipo]
+            lk=[]
+            while(cont<len(self.VValues)):
+               lk.append(float(self.VValues[cont]))
+               cont+=1
+            self.VValues=lk
         return [self.ids,self.labels,self.parents,self.VValues]
     def getListTe(self):
         return self.listTe
@@ -358,9 +392,7 @@ class obtList:
         listTemp=[]
         listTemp.extend(self.listSizes)
         listTemp.sort()
-        
         listTemp.reverse()
-        
         listPosPos=[]
         cont1=0
         cont2=0
@@ -391,7 +423,6 @@ class obtList:
             tupla+=(lTemp+")")
             cont+=1
         return tupla+");"
-        
     def getContinentes(self):
         cont=0
         tupla=[]
@@ -400,7 +431,6 @@ class obtList:
             cont+=1
             
         return tupla
-
     def getListaPaises(self):
         cont=0
         tupla=[[]]
@@ -413,9 +443,7 @@ class obtList:
             tupla.append(lTemp)
             lTemp=[]
             cont+=1
-            
         return tupla
-        
     def getListaPaisesPoblacion(self):
         cont=0
         tupla=[[]]
@@ -428,9 +456,7 @@ class obtList:
             tupla.append(lTemp)
             lTemp=[]
             cont+=1
-            
         return tupla
-
     def contar(self, m):
         d = 0
         while(m >= 1):
