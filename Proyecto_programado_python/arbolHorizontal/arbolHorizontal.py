@@ -25,6 +25,9 @@ coloresMainA=['blugrn', [[1, '#e74642'], [0.5, '#f3a3a1'], [0, '#ffffff']],
 colores=["#35a520","#49ab34","#5bb245","#6bb955","#7abf64","#88c674","#96cc83","#a3d392"]
 listasA=CodigoDesdeCVS.obtList("e2","Imports",2)
 listasB=CodigoDesdeCVS22.obtList("e2","Imports",2)
+# Para WIndows puede usarse este tipo de ruta tamb..
+#listasA=CodigoDesdeCVS.obtList("C:\\Users\\Jerem\\Documents\\Repositorios\\VI_Project1\\Proyecto_programado_python\\arbolHorizontal\\e2","Imports",2)
+#listasB=CodigoDesdeCVS22.obtList("C:\\Users\\Jerem\\Documents\\Repositorios\\VI_Project1\\Proyecto_programado_python\\arbolHorizontal\\e2","Imports",2)
 cont=0
 import numpy as np
 Cpadres=21

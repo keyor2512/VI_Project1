@@ -10,6 +10,9 @@ coloresMainA=['teal', [[1, '#693933'], [0.5, '#c58f88'], [0, '#ffffff']],
 
 listasA=CodigoDesdeCVS.obtList("e1","Origins",1)
 listasB=CodigoDesdeCVS22.obtList("e1","Origins",1)
+#Se puede usar este tipo de ruta tamb
+#listasA=CodigoDesdeCVS.obtList("C:\\Users\\Jerem\\Documents\\Repositorios\\VI_Project1\\Proyecto_programado_python\\arbolVertical\\e1","Origins",1)
+#listasB=CodigoDesdeCVS22.obtList("C:\\Users\\Jerem\\Documents\\Repositorios\\VI_Project1\\Proyecto_programado_python\\arbolVertical\\e1","Origins",1)
 cont=0
 import numpy as np
 Cpadres=6
