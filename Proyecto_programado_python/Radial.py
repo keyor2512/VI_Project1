@@ -53,7 +53,7 @@ class radialTree:
         df["products"] = "Export 2019"
         self.paintGrath(df)
     def startProgram(self):
-        ruth="C:\\Users\\Jerem\\Documents\\Repositorios\\VI_Project1\\Proyecto_programado_python\\exports.json"
+        ruth="/home/developerjeremylive/Documents/GitHub/VI_Project1/Proyecto_programado_python/exports.json"
         colum_HS4 = []
         colum_values = []
         colum_sections = []

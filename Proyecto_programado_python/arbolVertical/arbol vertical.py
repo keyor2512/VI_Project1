@@ -8,8 +8,11 @@ coloresMainA=['teal', [[1, '#693933'], [0.5, '#c58f88'], [0, '#ffffff']],
               [[1, '#0075bd'], [0.5, '#5ec2ff'], [0, '#ffffff']],
               [[1, '#ff6c45'], [0.5, '#ffb5a2'], [0, '#ffffff']]]
 
-listasA=CodigoDesdeCVS.obtList("e1","Origins",1)
-listasB=CodigoDesdeCVS22.obtList("e1","Origins",1)
+# listasA=CodigoDesdeCVS.obtList("e1","Origins",1)
+# listasB=CodigoDesdeCVS22.obtList("e1","Origins",1)
+listasA=CodigoDesdeCVS.obtList("/home/developerjeremylive/Documents/GitHub/VI_Project1/Proyecto_programado_python/arbolVertical/e1","Origins",1)
+listasB=CodigoDesdeCVS22.obtList("/home/developerjeremylive/Documents/GitHub/VI_Project1/Proyecto_programado_python/arbolVertical/e1","Origins",1)
+
 #Se puede usar este tipo de ruta tamb
 #listasA=CodigoDesdeCVS.obtList("C:\\Users\\Jerem\\Documents\\Repositorios\\VI_Project1\\Proyecto_programado_python\\arbolVertical\\e1","Origins",1)
 #listasB=CodigoDesdeCVS22.obtList("C:\\Users\\Jerem\\Documents\\Repositorios\\VI_Project1\\Proyecto_programado_python\\arbolVertical\\e1","Origins",1)

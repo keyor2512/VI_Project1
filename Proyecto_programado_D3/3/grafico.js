@@ -8,6 +8,8 @@ md`Exports`
 )});
   main.variable(observer("chart")).define("chart", ["tree","data","d3","autoBox"], function(tree,data,d3,autoBox)
 {
+
+  data.color = ["blue","pink","green","black","pink","green","pink"]
   const root = tree(data);
   
   const svg = d3.create("svg");
@@ -22,7 +24,9 @@ md`Exports`
     .join("path")
       .attr("d", d3.linkRadial()
           .angle(d => d.x)
-          .radius(d => d.y));
+          .radius(d => d.y))
+    .clone(true).lower()
+      .attr("stroke", "red");
   
   svg.append("g")
     .selectAll("circle")
@@ -32,8 +36,10 @@ md`Exports`
         rotate(${d.x * 180 / Math.PI - 90})
         translate(${d.y},0)
       `)
-      .attr("fill", d => d.children ? "#555" : "#999")
-      .attr("r", 2.5);
+      
+      .attr("fill", d => d.children ? "red" : "#999")
+      .attr("r", 2.5)
+      .attr("stroke", "red");
 
   svg.append("g")
       .attr("font-family", "sans-serif")
@@ -52,6 +58,7 @@ md`Exports`
       .attr("x", d => d.x < Math.PI === !d.children ? 6 : -6)
       .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
       .text(d => d.data.name)
+      .attr("stroke", d.data.color)
     .clone(true).lower()
       .attr("stroke", "white");
 
