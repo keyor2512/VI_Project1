@@ -1,5 +1,5 @@
 import ddf.minim.*;
-String cancion = "prueba3.mp3"; 
+String cancion = "prueba5.mp3"; 
 Minim minim;
 // change song file to add your own!
 AudioPlayer song;
