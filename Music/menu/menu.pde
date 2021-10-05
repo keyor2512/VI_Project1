@@ -17,7 +17,8 @@ boolean play=false;
 boolean listo=false;
 String cancion = "prueba5.mp3";
 Minim minim;
-// change song file to add your own!
+File f;
+
 AudioPlayer song;
 AudioInput in;
 
@@ -89,6 +90,7 @@ void draw(){
     if(!play){
       reproducir();
       play=true;
+      f = new File(cancion);
     }
    
     
@@ -305,7 +307,7 @@ void dibrepro(){
     fill(255, 0, 255);
     textFont(sourcecode);
     textSize(18);
-    text("x = Cambiar cancion\n[ m ] = change mode\n[ v ] = Pausar\n", 20, 40);
+    text("x = Cambiar cancion\n[ m ] = change mode\n[ v ] = Pausar\n"+f.getName()+"\n"+f.getAbsolutePath()+"\n", 20, 40);
     
   }
 }
