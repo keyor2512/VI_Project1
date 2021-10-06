@@ -364,6 +364,7 @@ void keyPressed() {
     repro=false;
     play=false;
     listo=false;
+    colorMode(RGB, 400);
     break;
   case 'm':
     mode += 1;
