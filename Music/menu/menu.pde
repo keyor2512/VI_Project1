@@ -1,5 +1,7 @@
+//
+// Libreria Minim
+//
 import ddf.minim.*;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +13,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
 
-
+//
+// Constantes
+//
 boolean repro=false;
 boolean play=false;
 boolean listo=false;
@@ -19,13 +23,13 @@ String cancion = "prueba5.mp3";
 Minim minim;
 File f;
 
-AudioPlayer song;
+AudioPlayer song;               // Cancion a reproducirse.
 AudioInput in;
 
 boolean lerping = true;
 
-int linesX = 40; // number of lines in x direction
-int linesY = 26; // number of lines in y direction
+int linesX = 40;                // numero de lineas en la direcion x.
+int linesY = 26;                // numero de lineas en la direcion y.
 
 boolean repel = true;
 boolean autopilot = false;
@@ -40,16 +44,12 @@ color c;
 PVector distance;
 PFont sourcecode;
 float stepsX, stepsY, radius, intensity, movement, last_sum, scale, factor, wave, sum;
-Node[][] Nodes = new Node[linesX][linesY]; // create matrix of Nodes
-Fish jimmy = new Fish(); //create Jimmy
-
+Node[][] Nodes = new Node[linesX][linesY];     // Instancio la matriz de nodos.
+Fish comportamiento_cancion = new Fish();                       // Instancion la captura de la cancion que se este reproducion.
 
 
 boolean view=false;
 int cancionNum=0;
-
-
-
 
 
 void setup(){
@@ -175,8 +175,13 @@ void menuDesp(){
 }
 }
 
-
+//
+// Clase nodo.
+//
 class Node {
+  //
+  // Solo tiene un constructor con las dimensiones y caracteristicas de la cancion.
+  //
   float xpos, ypos, speed, anchorx, anchory;
   Node (float x, float y, float s) {
     anchorx = x;
@@ -187,12 +192,23 @@ class Node {
   }
 }
 
+//
+// Clase captura
+//
 class Fish {
+  //
+  // Constructor con el x, y junto con la velocidad en que se detecta la cancion.
+  //
   float xpos, ypos, speed;
+
   Fish () {
     ypos = random(800*0.25, 800*0.75);
     xpos = random(1000*0.25, 1000*0.75);
   }
+
+  //
+  // Actualiza el movimiento junto cno el volumen de la cancion.
+  //
   void update() {
     //increase movement w/ volume of song
     if (lerping) {
@@ -214,17 +230,21 @@ class Fish {
   }
 }
 
+//
+// Reproduce la cancion nodo por nodo donde se interpreta la tonalidad.
+//
 void reproducir(){
   noSmooth();
   colorMode(HSB, 255);
   stepsX = (width) / linesX;
   stepsY = (height) / linesY;
-  // initialize nodes
+
   for (int i = 0; i < linesX; i++) {
     for (int j = 0; j < linesY; j++) {
-      Nodes[i][j] = new Node((i+0.5)*stepsX, (j+0.5)*stepsY, 2);
+      Nodes[i][j] = new Node((i+0.5)*stepsX, (j+0.5)*stepsY, 2);    //Se setea nodo
     }
   }
+  
   minim = new Minim(this);
   song = minim.loadFile(cancion);
   in = minim.getLineIn(Minim.MONO, 1024);
@@ -234,33 +254,48 @@ void reproducir(){
   sourcecode = createFont("sourcecode.ttf", 100);
 }
 
+//
+// Dibujo en el marco donde visualiza el comportamiento de la matriz de nodos.
+//
 void dibrepro(){
- 
+
+  if (cancionNum == 1){
+    background(155, 100, 20);
+  }else if (cancionNum == 2){
+    background(100, 120, 20);
+  }else if (cancionNum == 3){
+    background(255, 90, 30);
+  }else if (cancionNum == 4){
+    background(155, 50, 70);
+  }else if (cancionNum == 5){
+    background(125, 200, 40);
+  }
   
-  background(frameCount%255, 255, 30);
   coef = (repel ? 1 : -1);
-  //movement = (abs(mouseX - pmouseX) + abs(mouseY- pmouseY));
-  //magnitude = lerp(magnitude, movement, 0.1);
-  //wave = 0;
+
   if (lerping) {
     magnitude = lerp(sum, last_sum, 0.7)/2.5;
   } else {
     magnitude = last_sum;
   }
   wave = last_sum/2.5;
-  // draw nodes
+  
   for (int i = 0; i < linesX; i++) {
-    for (int j = 0; j < linesY; j++) {
+    for (int j = 0; j < linesY; j++) {   // Recorre matriz para trasar nodo por nodo en el marco de la interfaz.
       if (autopilot) {
-        jimmy.update();
-        distance = new PVector(Nodes[i][j].xpos - jimmy.xpos, Nodes[i][j].ypos - jimmy.ypos);
+        comportamiento_cancion.update();
+        distance = new PVector(Nodes[i][j].xpos - comportamiento_cancion.xpos, Nodes[i][j].ypos - comportamiento_cancion.ypos);
       } else {
         distance = new PVector(Nodes[i][j].xpos - mouseX, Nodes[i][j].ypos - mouseY);
       }
+
+      // Caracteristicas explicitas de la cancion.
       scale = (1/distance.mag())*magnitude;
       fill(255);
       intensity = pow(1 - distance.mag()/(maxMagnitude), 5) / 5;
       radius = (intensity*magnitude);
+      
+      // Seteo los nodos con nuevos datos, para ir construyendo el comportamiento.
       Nodes[i][j].xpos += coef*(distance.x*scale)/25;
       Nodes[i][j].ypos += coef*(distance.y*scale)/25;
       Nodes[i][j].xpos = lerp(Nodes[i][j].xpos, Nodes[i][j].anchorx, 0.05);
@@ -271,9 +306,12 @@ void dibrepro(){
       if (radius < 2) {
         radius = 2;
       }
-      c = color(170 + magnitude/2, magnitude*5, 255, 255);
+
+      // Factores para mostrar en interfaz.
+      c = color(170, 60, 255, 255);
       fill(c);
       stroke(c);
+
       if (mode == 0) {
         ellipse(Nodes[i][j].xpos + coef*(distance.x*scale), Nodes[i][j].ypos + coef*(distance.y*scale), radius, radius);
       }
@@ -284,12 +322,16 @@ void dibrepro(){
       }
     }
   }
-  // draw wave code
+  
+  // Factores para mostrar en interfaz, como una ola del bit de la cancion.
   c = color(170 + wave/2, wave*5, 255, 255);
   fill(c);
+  c = color(170, 50, 255, 255);
   stroke(c);
   strokeWeight(2);
-  sum = 0; //increase sum based on amplitude of wave
+
+  sum = 0; //Incrementa la base sumada en la amplitud de la ola de sonido de la cancion.
+  
   for (int i = 0; i < song.bufferSize() - 1; i++)
   {
     if (voice) {
@@ -302,16 +344,19 @@ void dibrepro(){
   }
   last_sum = sum;
 
-  // HUD controls
+  // Control de HUD
   if (controls) {
     fill(255, 0, 255);
     textFont(sourcecode);
     textSize(18);
-    text("x = Cambiar cancion\n[ m ] = change mode\n[ v ] = Pausar\n"+f.getName()+"\n"+f.getAbsolutePath()+"\n", 20, 40);
+    text("x = Cambiar cancion\n[ m ] = Cambiar modo\n[ v ] = Pausar\n"+f.getName()+"\n"+f.getAbsolutePath()+"\n", 20, 40);
     
   }
 }
 
+//
+// Accion de apretar tecla en el teclado.
+//
 void keyPressed() {
   switch(key) {
   case 'x':
