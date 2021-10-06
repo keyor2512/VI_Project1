@@ -63,10 +63,10 @@ void draw(){
     fill(255, 255,255);
     rect(40, 10, 220, 40);
     rect(280, 15, 40, 30);
-    textSize(40);
+    textSize(50);
     fill(0, 4, 612);
     text("Canciones", 40, 45);
-    textSize(15);
+    textSize(10);
     text("Play", 282, 37);
     textSize(20);
     fill(255, 255,255);
